@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Souq to Screen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Lexend:wght@400;500;700&family=Noto+Sans+Arabic:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Shopping-app world: fresh mint background, deep green ink, eight bright badge colours, orange "buy" accent */
+  --mint:#e3f5ee;
+  --paper:#fbfffd;
+  --ink:#10302b;
+  --orange:#ff7a1a;
+  --muted:#4d6b65;
+  --good:#11a36a;
+  --bad:#e5484d;
+  --display:"Bungee","Arial Black",Impact,sans-serif;
+  --body:"Lexend","Segoe UI",system-ui,sans-serif;
+  --arabic:"Noto Sans Arabic","Geeza Pro","Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--mint);
+  background-image:linear-gradient(rgba(16,48,43,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(16,48,43,.05) 1px,transparent 1px);
+  background-size:32px 32px;
+  color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.55;
+}
+.wrap{max-width:920px;margin:0 auto;padding:22px 18px 60px;display:grid;gap:22px}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.1;margin:0;text-wrap:balance}
+p{margin:0}
+.ar{font-family:var(--arabic);direction:rtl;unicode-bidi:isolate}
+.eyebrow{font-family:var(--display);font-size:13px;letter-spacing:.06em;color:var(--orange)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1fr 250px;gap:18px;align-items:center}
+.hero h1{font-size:clamp(36px,7vw,64px);margin:6px 0 10px}
+.hero h1 .to{color:var(--orange)}
+.hero h1 .scr{background:var(--ink);color:var(--paper);padding:0 .14em;border-radius:8px;display:inline-block;transform:rotate(-2deg)}
+.hero svg{width:250px;height:200px}
+
+/* badge tray */
+.tray{background:var(--paper);border:3px solid var(--ink);border-radius:16px;box-shadow:6px 6px 0 var(--ink);padding:12px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;position:sticky;top:8px;z-index:4}
+.tray h2{font-size:15px}
+.tray .sub{font-size:13px;color:var(--muted)}
+.slots{display:flex;flex-wrap:wrap;gap:8px}
+.slot{width:42px;height:42px;border-radius:50%;border:3px dashed rgba(16,48,43,.3);display:grid;place-items:center;background:#fff}
+.slot.got{border:3px solid var(--ink);animation:pop .5s cubic-bezier(.2,1.6,.4,1) both}
+.slot.miss{border:3px solid var(--ink);opacity:.45;filter:grayscale(1)}
+.slot svg{width:24px;height:24px}
+@keyframes pop{from{transform:scale(1.9) rotate(-25deg);opacity:0}to{transform:none;opacity:1}}
+.count{font-family:var(--display);font-size:15px}
+
+/* round card */
+.card{background:var(--paper);border:3px solid var(--ink);border-radius:18px;box-shadow:8px 8px 0 var(--ink);padding:22px;display:grid;gap:16px}
+.card.anim{animation:slide .45s cubic-bezier(.2,.9,.3,1.15) both}
+@keyframes slide{from{transform:translateX(24px);opacity:0}to{transform:none;opacity:1}}
+.rtag{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pill{font-family:var(--display);font-size:13px;color:#fff;background:var(--ink);padding:3px 10px;border-radius:999px}
+.pill.o{background:var(--orange)}
+.card h2{font-size:clamp(22px,3.6vw,30px)}
+.compare{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:stretch}
+.side{border:3px solid var(--ink);border-radius:14px;padding:14px;display:grid;gap:8px;align-content:start}
+.side.old{background:#f3ece2}
+.side.new{background:#e7f1ff}
+.side .lbl{font-family:var(--display);font-size:13px;letter-spacing:.04em}
+.side svg{width:100%;height:110px}
+.side p{font-size:16px}
+.arrow{align-self:center;font-family:var(--display);font-size:28px;color:var(--orange)}
+.q{font-size:19px;font-weight:700}
+
+/* badges to choose */
+.badges{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.badge{font:inherit;cursor:pointer;background:#fff;color:var(--ink);border:3px solid var(--ink);border-radius:14px;padding:10px 8px;display:grid;justify-items:center;gap:6px;box-shadow:3px 3px 0 var(--ink);transition:transform .1s,box-shadow .1s}
+.badge:hover{transform:translate(-1px,-2px);box-shadow:4px 5px 0 var(--ink)}
+.badge .ic{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;border:2px solid var(--ink)}
+.badge .ic svg{width:26px;height:26px}
+.badge span.n{font-size:14px;font-weight:700;text-align:center;line-height:1.2}
+.badge.right{background:#dcf5e9;border-color:var(--good);box-shadow:3px 3px 0 var(--good)}
+.badge.wrong{background:#fde2e3;border-color:var(--bad);box-shadow:3px 3px 0 var(--bad)}
+.badge:disabled{cursor:default}
+.badge:disabled:not(.right):not(.wrong){opacity:.5}
+:focus-visible{outline:4px solid var(--orange);outline-offset:3px}
+
+.fb{border:3px solid var(--ink);border-radius:14px;padding:14px 16px;display:grid;gap:8px;animation:slide .35s both}
+.fb.ok{background:#dcf5e9}
+.fb.no{background:#fde2e3}
+.fb h3{font-size:20px}
+.fb .ar{font-size:18px;font-weight:700;color:var(--muted)}
+.fb .def{font-size:15px;color:var(--muted)}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+button.btn{font-family:var(--display);font-size:16px;cursor:pointer;color:#fff;background:var(--orange);border:3px solid var(--ink);border-radius:12px;padding:10px 18px;box-shadow:4px 4px 0 var(--ink);transition:transform .1s,box-shadow .1s}
+button.btn:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--ink)}
+button.btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+button.btn.dark{background:var(--ink)}
+
+/* summary */
+.final{background:var(--ink);color:var(--paper)}
+.final h2{color:var(--paper)}
+.big{font-family:var(--display);font-size:46px;color:var(--orange)}
+.sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.sumc{background:var(--paper);color:var(--ink);border-radius:14px;padding:12px;display:grid;gap:4px;align-content:start;border:3px solid var(--paper)}
+.sumc .top{display:flex;gap:10px;align-items:center}
+.sumc .ic{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;border:2px solid var(--ink);flex:none}
+.sumc .ic svg{width:22px;height:22px}
+.sumc h3{font-size:14px}
+.sumc .ar{font-size:15px;font-weight:700;color:var(--muted)}
+.sumc p{font-size:14px}
+.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:20}
+.confetti i{position:absolute;top:-30px;width:14px;height:20px;border-radius:3px;border:2px solid var(--ink);animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(600deg)}}
+footer{font-size:13px;color:var(--muted);text-align:center}
+
+@media (max-width:720px){
+  .hero{grid-template-columns:1fr}.hero svg{justify-self:center;width:200px;height:160px}
+  .compare{grid-template-columns:1fr}.arrow{justify-self:center;transform:rotate(90deg)}
+  .badges{grid-template-columns:repeat(2,1fr)}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}.confetti{display:none}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="hero">
+    <div>
+      <p class="eyebrow">INS-260 · Chapter 10 · E-commerce</p>
+      <h1>Souq <span class="to">to</span> <span class="scr">Screen</span></h1>
+      <p>E-commerce has 8 unique features that traditional shopping does not have. Think of them as 8 superpowers. Help Fatima buy a birthday gift for her sister, and collect all 8 badges.</p>
+    </div>
+    <svg viewBox="0 0 250 200" role="img" aria-label="A traditional market stall next to a smartphone with a shopping app">
+      <rect x="10" y="80" width="100" height="100" fill="#f3ece2" stroke="#10302b" stroke-width="4"/>
+      <path d="M4 80h112l-10-26H14z" fill="#ff7a1a" stroke="#10302b" stroke-width="4"/>
+      <path d="M34 54l-4 26M60 54v26M86 54l4 26" stroke="#fbfffd" stroke-width="8"/>
+      <circle cx="40" cy="120" r="10" fill="#f2c94c" stroke="#10302b" stroke-width="3"/><circle cx="62" cy="122" r="10" fill="#e5484d" stroke="#10302b" stroke-width="3"/><circle cx="84" cy="120" r="10" fill="#11a36a" stroke="#10302b" stroke-width="3"/>
+      <rect x="22" y="140" width="76" height="40" fill="#c9965a" stroke="#10302b" stroke-width="3"/>
+      <path d="M124 110h22M138 102l10 8-10 8" fill="none" stroke="#ff7a1a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="160" y="20" width="80" height="160" rx="14" fill="#10302b"/>
+      <rect x="167" y="34" width="66" height="128" rx="6" fill="#e7f1ff"/>
+      <rect x="174" y="42" width="52" height="10" rx="5" fill="#fff" stroke="#10302b" stroke-width="2"/>
+      <rect x="174" y="60" width="24" height="24" rx="4" fill="#f2c94c" stroke="#10302b" stroke-width="2"/><rect x="202" y="60" width="24" height="24" rx="4" fill="#e5484d" stroke="#10302b" stroke-width="2"/>
+      <rect x="174" y="90" width="24" height="24" rx="4" fill="#11a36a" stroke="#10302b" stroke-width="2"/><rect x="202" y="90" width="24" height="24" rx="4" fill="#6c4cf1" stroke="#10302b" stroke-width="2"/>
+      <rect x="174" y="124" width="52" height="16" rx="8" fill="#ff7a1a"/><text x="200" y="136" text-anchor="middle" font-family="Bungee, Arial Black, sans-serif" font-size="9" fill="#fff">BUY</text>
+    </svg>
+  </header>
+
+  <section class="tray" aria-label="Your badge collection">
+    <div><h2>Your superpower badges</h2><p class="sub">Collect all 8</p></div>
+    <div class="slots" id="slots"></div>
+    <span class="count" id="count"></span>
+  </section>
+
+  <div id="stage" aria-live="polite"></div>
+
+  <footer>Created by Reem Salem (using Claude.ai) for INS-260 at Zayed University.</footer>
+</main>
+<div class="confetti" id="confetti" aria-hidden="true"></div>
+
+<script>
+(function(){
+const INK = "#10302b";
+const ICON = {
+ubiq:`<circle cx="12" cy="12" r="9" fill="none" stroke="${INK}" stroke-width="2.4"/><path d="M12 7v5l3 3" stroke="${INK}" stroke-width="2.4" fill="none" stroke-linecap="round"/>`,
+global:`<circle cx="12" cy="12" r="9" fill="none" stroke="${INK}" stroke-width="2.2"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18" fill="none" stroke="${INK}" stroke-width="2"/>`,
+std:`<rect x="2" y="5" width="13" height="9" rx="1.5" fill="none" stroke="${INK}" stroke-width="2.2"/><path d="M6 18h5" stroke="${INK}" stroke-width="2.2"/><rect x="16" y="8" width="6" height="12" rx="1.5" fill="none" stroke="${INK}" stroke-width="2.2"/>`,
+rich:`<rect x="2" y="5" width="20" height="14" rx="3" fill="none" stroke="${INK}" stroke-width="2.2"/><path d="M10 9l5 3-5 3z" fill="${INK}"/>`,
+inter:`<path d="M3 5h12v8H8l-3 3v-3H3z" fill="none" stroke="${INK}" stroke-width="2" stroke-linejoin="round"/><path d="M11 15v2h6l3 3v-3h1V9h-3" fill="none" stroke="${INK}" stroke-width="2" stroke-linejoin="round"/>`,
+dens:`<path d="M3 12l8-8h8v8l-8 8z" fill="none" stroke="${INK}" stroke-width="2.2" stroke-linejoin="round"/><circle cx="15.5" cy="8.5" r="1.6" fill="${INK}"/><path d="M8 13h5M9 16h3" stroke="${INK}" stroke-width="2"/>`,
+pers:`<circle cx="12" cy="8" r="4" fill="none" stroke="${INK}" stroke-width="2.2"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6" fill="none" stroke="${INK}" stroke-width="2.2"/><path d="M18 3l1 2 2 .3-1.5 1.4.4 2-1.9-1-1.9 1 .4-2L15 5.3l2-.3z" fill="${INK}"/>`,
+social:`<rect x="3" y="6" width="14" height="11" rx="2" fill="none" stroke="${INK}" stroke-width="2.2"/><circle cx="10" cy="11.5" r="3" fill="none" stroke="${INK}" stroke-width="2"/><path d="M17 9l4-2v9l-4-2" fill="none" stroke="${INK}" stroke-width="2" stroke-linejoin="round"/>`
+};
+const F = [
+ {id:"ubiq", name:"Ubiquity", ar:"التواجد في كل مكان", color:"#f2c94c",
+  plain:"You can shop anytime and anywhere: at home, at work, or in the car.",
+  def:"The marketplace is available nearly everywhere, all the time. It also reduces transaction costs (time, money and effort)."},
+ {id:"global", name:"Global reach", ar:"الوصول العالمي", color:"#4fb3ff",
+  plain:"You can buy from, and sell to, people anywhere in the world.",
+  def:"Transactions cross cultural and national boundaries. The potential market is the size of the world's online population."},
+ {id:"std", name:"Universal standards", ar:"المعايير العالمية الموحدة", color:"#b8a6ff",
+  plain:"The same internet technology works on every device, everywhere.",
+  def:"One set of technical standards across the globe, so different computers can communicate easily. This lowers costs for sellers and search costs for buyers."},
+ {id:"rich", name:"Richness", ar:"ثراء المحتوى", color:"#ff9a8a",
+  plain:"Rich messages, with video, sound and 360° views, can reach millions of people at once.",
+  def:"The complexity and content of a message. E-commerce can deliver rich messages with text, audio and video to large numbers of people."},
+ {id:"inter", name:"Interactivity", ar:"التفاعلية", color:"#5fd4a8",
+  plain:"Two-way communication: you can ask, and the shop answers right away.",
+  def:"Technology that allows two-way communication between the seller and the customer, like a face-to-face conversation but on a global scale."},
+ {id:"dens", name:"Information density", ar:"كثافة المعلومات", color:"#ffb347",
+  plain:"Lots of information everywhere, so you can easily compare prices and products.",
+  def:"The total amount and quality of information available to all market participants. Prices and costs become more transparent."},
+ {id:"pers", name:"Personalization/Customization", ar:"التخصيص", color:"#ff7ab8",
+  plain:"Messages and products are made just for you, based on your name, interests and past purchases.",
+  def:"<br><b>Personalization:</b> Technology changes the messages or products shown to each customer, so websites such as Amazon adjust to your preferences.<br><b>Customization:</b> Customers can change the apps and websites they use themselves, for example to see specific news stories or shopping interests."},
+ {id:"social", name:"Social technology", ar:"التقنية الاجتماعية", color:"#7ad3e0",
+  plain:"Users create and share their own content: reviews, videos and posts.",
+  def:"Technology that lets users create and share content with large communities, like posting videos on YouTube or reviews on social media."}
+];
+const ROUNDS = [
+ {f:"ubiq", title:"It's midnight, and Fatima just remembered the birthday",
+  oldT:"The mall closes at 10 pm. She would have to wait until tomorrow and drive there.",
+  newT:"She opens a shopping app in bed at midnight and orders the gift in 2 minutes.",
+  oldA:"moon", newA:"bed"},
+ {f:"global", title:"The perfect perfume is only sold in France",
+  oldT:"No shop in Abu Dhabi sells it. She would have to travel, or ask a friend to bring it.",
+  newT:"She orders it from a French website, and it arrives in a week.",
+  oldA:"noshop", newA:"plane"},
+ {f:"std", title:"Phone, laptop or tablet?",
+  oldT:"Long ago, different computers used different systems and could not easily talk to each other.",
+  newT:"The same shop works on her phone, her laptop and her sister's tablet, anywhere in the world.",
+  oldA:"cables", newA:"devices"},
+ {f:"rich", title:"What does the bag really look like?",
+  oldT:"Rich detail needed a salesperson in a shop. Early websites only had one small photo.",
+  newT:"She watches a video, spins a 360° view and listens to a review, like millions of other shoppers.",
+  oldA:"photo", newA:"video"},
+ {f:"inter", title:"Is this bag big enough for a laptop?",
+  oldT:"A TV advert or newspaper cannot answer her questions.",
+  newT:"She opens the chat window and the shop answers in seconds.",
+  oldA:"tv", newA:"chat"},
+ {f:"dens", title:"Is this a good price?",
+  oldT:"She would have to walk to five different shops to compare prices.",
+  newT:"She compares the price on 10 websites in 2 minutes, and finds it 80 AED cheaper.",
+  oldA:"walk", newA:"compare"},
+ {f:"pers", title:"\"Hi Fatima, you might like this!\"",
+  oldT:"A newspaper advert shows the same thing to everyone.",
+  newT:"The app greets her by name and shows bags in her favourite colour, based on what she looked at before.",
+  oldA:"news", newA:"foryou"},
+ {f:"social", title:"The gift was a hit!",
+  oldT:"Before, only companies created content. Customers just watched TV and read magazines.",
+  newT:"Fatima posts an unboxing video, and 500 people watch and comment on it.",
+  oldA:"mag", newA:"post"}
+];
+
+/* small scene illustrations for each side */
+const A = {
+moon:`<rect x="20" y="40" width="100" height="62" fill="#fff" stroke="${INK}" stroke-width="3"/><rect x="50" y="62" width="40" height="40" fill="${INK}"/><rect x="38" y="48" width="64" height="16" rx="3" fill="#e5484d"/><text x="70" y="60" text-anchor="middle" font-family="Bungee, Arial Black" font-size="10" fill="#fff">CLOSED</text><path d="M168 18a20 20 0 1 0 18 30 16 16 0 1 1-18-30z" fill="#f2c94c" stroke="${INK}" stroke-width="3"/><text x="150" y="96" font-family="Bungee, Arial Black" font-size="16" fill="${INK}">10PM</text>`,
+bed:`<rect x="20" y="66" width="160" height="26" rx="6" fill="#b8a6ff" stroke="${INK}" stroke-width="3"/><rect x="24" y="52" width="40" height="20" rx="8" fill="#fff" stroke="${INK}" stroke-width="3"/><circle cx="90" cy="50" r="12" fill="#e9b98f" stroke="${INK}" stroke-width="3"/><rect x="112" y="30" width="26" height="42" rx="5" fill="${INK}"/><rect x="116" y="36" width="18" height="28" rx="2" fill="#4fb3ff"/><text x="160" y="40" font-family="Bungee, Arial Black" font-size="13" fill="${INK}">12AM</text>`,
+noshop:`<rect x="30" y="38" width="80" height="62" fill="#fff" stroke="${INK}" stroke-width="3"/><path d="M24 38h92l-8-18H32z" fill="#ff7a1a" stroke="${INK}" stroke-width="3"/><circle cx="150" cy="62" r="26" fill="none" stroke="#e5484d" stroke-width="6"/><path d="M132 44l36 36" stroke="#e5484d" stroke-width="6"/><rect x="138" y="54" width="18" height="24" rx="3" fill="#ff7ab8" stroke="${INK}" stroke-width="2"/>`,
+plane:`<circle cx="70" cy="60" r="38" fill="#4fb3ff" stroke="${INK}" stroke-width="3"/><path d="M40 46c10 4 18 0 26 6s8 14 18 12M50 82c6-6 14-4 18-10" fill="none" stroke="#11a36a" stroke-width="6" stroke-linecap="round"/><path d="M128 40l46-10c4 0 6 4 2 6l-38 16-6 12h-6l2-12-14 4-4 6h-5l3-10z" fill="#fff" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/><path d="M110 70c20 4 40 2 60-10" fill="none" stroke="${INK}" stroke-width="2.5" stroke-dasharray="6 6"/>`,
+cables:`<rect x="16" y="30" width="56" height="40" rx="4" fill="#fff" stroke="${INK}" stroke-width="3"/><rect x="128" y="30" width="56" height="40" rx="4" fill="#fff" stroke="${INK}" stroke-width="3"/><path d="M72 50c14 0 14 26 28 26s14-26 28-26" fill="none" stroke="${INK}" stroke-width="3"/><circle cx="100" cy="76" r="12" fill="#e5484d" stroke="${INK}" stroke-width="3"/><path d="M95 71l10 10M105 71l-10 10" stroke="#fff" stroke-width="3"/>`,
+devices:`<rect x="14" y="24" width="84" height="56" rx="4" fill="#fff" stroke="${INK}" stroke-width="3"/><path d="M6 88h100" stroke="${INK}" stroke-width="5" stroke-linecap="round"/><rect x="112" y="20" width="44" height="66" rx="5" fill="#fff" stroke="${INK}" stroke-width="3"/><rect x="164" y="40" width="24" height="46" rx="4" fill="#fff" stroke="${INK}" stroke-width="3"/><g fill="#11a36a"><rect x="30" y="38" width="52" height="10" rx="3"/><rect x="120" y="34" width="28" height="8" rx="3"/><rect x="168" y="50" width="16" height="6" rx="2"/></g><path d="M44 62l8 8 14-14" fill="none" stroke="#11a36a" stroke-width="4"/>`,
+photo:`<rect x="60" y="22" width="80" height="64" rx="4" fill="#fff" stroke="${INK}" stroke-width="3"/><rect x="88" y="44" width="24" height="22" rx="3" fill="#c9965a" stroke="${INK}" stroke-width="2"/><text x="100" y="104" text-anchor="middle" font-family="Lexend, sans-serif" font-size="12" fill="${INK}">1 small photo</text>`,
+video:`<rect x="20" y="18" width="110" height="72" rx="8" fill="${INK}"/><path d="M66 38l24 16-24 16z" fill="#ff7a1a"/><circle cx="160" cy="54" r="26" fill="none" stroke="${INK}" stroke-width="3"/><path d="M140 54a20 8 0 1 0 40 0" fill="none" stroke="#4fb3ff" stroke-width="3"/><text x="160" y="58" text-anchor="middle" font-family="Bungee, Arial Black" font-size="12" fill="${INK}">360°</text>`,
+tv:`<rect x="40" y="18" width="120" height="74" rx="8" fill="#fff" stroke="${INK}" stroke-width="3"/><rect x="50" y="28" width="100" height="54" rx="3" fill="#ffb347"/><text x="100" y="60" text-anchor="middle" font-family="Bungee, Arial Black" font-size="13" fill="${INK}">BUY NOW!</text><path d="M80 92l-10 12M120 92l10 12" stroke="${INK}" stroke-width="3"/><text x="176" y="40" font-family="Bungee, Arial Black" font-size="22" fill="#e5484d">?</text>`,
+chat:`<rect x="16" y="16" width="110" height="34" rx="10" fill="#fff" stroke="${INK}" stroke-width="3"/><text x="26" y="38" font-family="Lexend, sans-serif" font-size="12" fill="${INK}">Fits a laptop?</text><rect x="74" y="60" width="110" height="34" rx="10" fill="#5fd4a8" stroke="${INK}" stroke-width="3"/><text x="84" y="82" font-family="Lexend, sans-serif" font-size="12" fill="${INK}">Yes, up to 15"!</text>`,
+walk:`<g fill="#fff" stroke="${INK}" stroke-width="3"><rect x="8" y="40" width="34" height="34"/><rect x="48" y="40" width="34" height="34"/><rect x="88" y="40" width="34" height="34"/><rect x="128" y="40" width="34" height="34"/><rect x="168" y="40" width="26" height="34"/></g><path d="M10 92h184" stroke="${INK}" stroke-width="3" stroke-dasharray="8 6"/><text x="100" y="26" text-anchor="middle" font-family="Bungee, Arial Black" font-size="13" fill="${INK}">5 SHOPS</text>`,
+compare:`<rect x="20" y="14" width="160" height="80" rx="8" fill="#fff" stroke="${INK}" stroke-width="3"/><g font-family="Lexend, sans-serif" font-size="12" fill="${INK}"><text x="32" y="36">Site A ........ 420 AED</text><text x="32" y="56">Site B ........ 395 AED</text><text x="32" y="76" fill="#11a36a" font-weight="700">Site C ........ 340 AED ✓</text></g>`,
+news:`<rect x="40" y="16" width="120" height="82" fill="#fff" stroke="${INK}" stroke-width="3"/><path d="M52 30h96M52 42h60M52 54h96M52 66h70M52 78h96" stroke="${INK}" stroke-width="3" opacity=".5"/><rect x="118" y="38" width="30" height="26" fill="#ffb347" stroke="${INK}" stroke-width="2"/>`,
+foryou:`<rect x="62" y="8" width="76" height="98" rx="12" fill="${INK}"/><rect x="68" y="18" width="64" height="80" rx="5" fill="#fff"/><text x="100" y="34" text-anchor="middle" font-family="Lexend, sans-serif" font-weight="700" font-size="10" fill="${INK}">Hi Fatima!</text><rect x="74" y="42" width="24" height="24" rx="4" fill="#ff7ab8" stroke="${INK}" stroke-width="2"/><rect x="102" y="42" width="24" height="24" rx="4" fill="#ff7ab8" stroke="${INK}" stroke-width="2"/><text x="100" y="84" text-anchor="middle" font-family="Lexend, sans-serif" font-size="9" fill="${INK}">Picked for you</text><path d="M160 30l3 6 6 1-4.5 4 1 6-5.5-3-5.5 3 1-6-4.5-4 6-1z" fill="#f2c94c" stroke="${INK}" stroke-width="2"/>`,
+mag:`<rect x="30" y="20" width="70" height="80" fill="#fff" stroke="${INK}" stroke-width="3"/><text x="65" y="40" text-anchor="middle" font-family="Bungee, Arial Black" font-size="11" fill="${INK}">MAGAZINE</text><rect x="40" y="48" width="50" height="40" fill="#7ad3e0"/><rect x="112" y="30" width="70" height="52" rx="4" fill="#fff" stroke="${INK}" stroke-width="3"/><path d="M140 44l14 9-14 9z" fill="${INK}"/><text x="147" y="98" text-anchor="middle" font-family="Lexend, sans-serif" font-size="11" fill="${INK}">just watching</text>`,
+post:`<rect x="20" y="10" width="96" height="94" rx="10" fill="#fff" stroke="${INK}" stroke-width="3"/><rect x="28" y="18" width="80" height="54" rx="4" fill="#7ad3e0"/><path d="M60 34l16 11-16 11z" fill="${INK}"/><path d="M30 84c2-4 8-4 10 0-2 4-8 8-5 8 3 0-3-4-5-8z" fill="#e5484d"/><text x="46" y="92" font-family="Lexend, sans-serif" font-size="11" fill="${INK}">500</text><rect x="126" y="20" width="62" height="22" rx="8" fill="#5fd4a8" stroke="${INK}" stroke-width="2"/><rect x="126" y="50" width="62" height="22" rx="8" fill="#ffb347" stroke="${INK}" stroke-width="2"/><rect x="126" y="80" width="62" height="22" rx="8" fill="#ff9a8a" stroke="${INK}" stroke-width="2"/>`
+};
+
+const fById = id => F.find(x=>x.id===id);
+const icon = (id, size) => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICON[id]}</svg>`;
+const fresh = () => ({i:0, picks:Array(ROUNDS.length).fill(null)});
+let state = fresh();
+let anim = true;
+window.claude?.hot?.snapshot?.(() => state);
+const $ = s => document.querySelector(s);
+
+function renderTray(){
+  $("#slots").innerHTML = ROUNDS.map((r,k)=>{
+    const f = fById(r.f), p = state.picks[k];
+    if(p===null) return `<span class="slot" aria-label="Badge ${k+1}: not collected yet"></span>`;
+    const ok = p===r.f;
+    return `<span class="slot ${ok?"got":"miss"}" style="background:${f.color}" aria-label="${f.name}: ${ok?"collected":"missed"}">${icon(f.id)}</span>`;
+  }).join("");
+  const got = state.picks.filter((p,k)=>p===ROUNDS[k].f).length;
+  $("#count").textContent = `${got} / 8`;
+}
+
+function roundCard(){
+  const k = state.i, r = ROUNDS[k], pick = state.picks[k], f = fById(r.f);
+  const answered = pick!==null;
+  return `<section class="card ${anim?"anim":""}" aria-labelledby="rh">
+    <div class="rtag"><span class="pill o">Round ${k+1} of 8</span><span class="pill">Fatima's gift</span></div>
+    <h2 id="rh">${r.title}</h2>
+    <div class="compare">
+      <div class="side old"><span class="lbl">The old way</span><svg viewBox="0 0 200 110" aria-hidden="true">${A[r.oldA]}</svg><p>${r.oldT}</p></div>
+      <span class="arrow" aria-hidden="true">→</span>
+      <div class="side new"><span class="lbl">With e-commerce</span><svg viewBox="0 0 200 110" aria-hidden="true">${A[r.newA]}</svg><p>${r.newT}</p></div>
+    </div>
+    <p class="q">Which superpower of e-commerce is this?</p>
+    <div class="badges">
+      ${F.map(x=>{
+        let cls="";
+        if(answered){ if(x.id===r.f) cls="right"; else if(x.id===pick) cls="wrong"; }
+        return `<button type="button" class="badge ${cls}" data-pick="${x.id}" ${answered?"disabled":""}>
+          <span class="ic" style="background:${x.color}">${icon(x.id)}</span><span class="n">${x.name}</span></button>`;
+      }).join("")}
+    </div>
+    ${answered ? `
+      <div class="fb ${pick===r.f?"ok":"no"}">
+        <h3>${pick===r.f?"Badge unlocked: ":"Not quite. It's "}${f.name}</h3>
+        <p class="ar" lang="ar">${f.ar}</p>
+        <p><b>In plain words:</b> ${f.plain}</p>
+        <p class="def"><b>Textbook idea:</b> ${f.def}</p>
+      </div>
+      <div class="row"><button type="button" class="btn" id="next">${k<7?"Next round →":"See my badges →"}</button></div>` : ""}
+  </section>`;
+}
+
+function finalCard(){
+  const got = state.picks.filter((p,k)=>p===ROUNDS[k].f).length;
+  const msg = got===8 ? "All 8 superpowers! You're an e-commerce expert." : got>=5 ? "Great work! Almost a full set." : "Good start! Play again to collect them all.";
+  return `<section class="card final anim" aria-labelledby="fh">
+    <div class="rtag"><span class="pill o">Finished</span></div>
+    <h2 id="fh">${msg}</h2>
+    <p><span class="big">${got}/8</span> badges</p>
+    <p>The 8 unique features of e-commerce:</p>
+    <div class="sum">
+      ${F.map(x=>`<div class="sumc"><div class="top"><span class="ic" style="background:${x.color}">${icon(x.id)}</span><h3>${x.name}</h3></div><p class="ar" lang="ar">${x.ar}</p><p>${x.plain}</p></div>`).join("")}
+    </div>
+    <div class="row"><button type="button" class="btn" id="again">Play again</button></div>
+  </section>`;
+}
+
+function render(scroll){
+  renderTray();
+  $("#stage").innerHTML = state.i < ROUNDS.length ? roundCard() : finalCard();
+  if(scroll) $("#stage").scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth", block:"start"});
+}
+
+function confetti(){
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const box=$("#confetti"); box.innerHTML="";
+  const colors=F.map(f=>f.color).concat(["#ff7a1a"]);
+  for(let i=0;i<50;i++){const s=document.createElement("i");s.style.left=Math.random()*100+"vw";s.style.background=colors[i%colors.length];s.style.animationDuration=(1.6+Math.random()*1.8)+"s";s.style.animationDelay=(Math.random()*.5)+"s";box.appendChild(s);}
+  setTimeout(()=>box.innerHTML="",4200);
+}
+
+document.addEventListener("click", e=>{
+  const b = e.target.closest("[data-pick]");
+  if(b && state.picks[state.i]===null){ state.picks[state.i]=b.dataset.pick; anim=false; const y=window.scrollY; render(); window.scrollTo(0,y); const n=$("#next"); n&&n.focus({preventScroll:true}); return; }
+  if(e.target.closest("#next")){ state.i++; anim=true; render(true); if(state.i>=ROUNDS.length && state.picks.every((p,k)=>p===ROUNDS[k].f)) confetti(); return; }
+  if(e.target.closest("#again")){ state=fresh(); anim=true; render(); window.scrollTo({top:0,behavior:"smooth"}); }
+});
+
+function start(saved){ if(saved && typeof saved.i==="number" && Array.isArray(saved.picks)) state=saved; render(); }
+window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {});
+})();
+</script>
+</body>
+</html>
