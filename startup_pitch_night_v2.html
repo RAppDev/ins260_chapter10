@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Startup Pitch Night: Business Models</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Lexend:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Pitch-night stage: dark auditorium, one spotlight, gold investor coins, pink and teal stage lights */
+  --night:#17122e;
+  --panel:#241d4a;
+  --panel2:#2f2760;
+  --text:#fff8ec;
+  --gold:#ffc93c;
+  --pink:#ff5c8a;
+  --teal:#2ec4b6;
+  --muted:#c4bce8;
+  --good:#2ec4b6;
+  --bad:#ff5c8a;
+  --display:"Bungee","Arial Black",Impact,sans-serif;
+  --body:"Lexend","Segoe UI",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--night);
+  background-image:radial-gradient(ellipse 60% 45% at 50% 0%, rgba(255,201,60,.18), transparent 70%), radial-gradient(circle at 10% 90%, rgba(255,92,138,.12), transparent 40%), radial-gradient(circle at 90% 80%, rgba(46,196,182,.12), transparent 40%);
+  background-attachment:fixed;
+  color:var(--text);font-family:var(--body);font-size:18px;line-height:1.55;
+}
+.wrap{max-width:900px;margin:0 auto;padding:24px 18px 60px;display:grid;gap:22px}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.1;margin:0;text-wrap:balance}
+p{margin:0}
+.eyebrow{font-family:var(--display);font-size:13px;letter-spacing:.06em;color:var(--gold)}
+.hero{display:grid;gap:10px;text-align:left}
+.hero h1{font-size:clamp(36px,7vw,66px)}
+.hero h1 span{color:var(--gold);text-shadow:0 0 24px rgba(255,201,60,.45)}
+.lede{max-width:62ch;color:var(--muted)}
+
+/* portfolio */
+.port{background:var(--panel);border:2px solid var(--gold);border-radius:16px;padding:12px 18px;display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;position:sticky;top:8px;z-index:4;box-shadow:0 8px 30px rgba(0,0,0,.35)}
+.port .lbl{font-size:13px;color:var(--muted)}
+.port .val{font-family:var(--display);font-size:26px;color:var(--gold);font-variant-numeric:tabular-nums}
+.coins{display:flex;gap:6px;flex-wrap:wrap}
+.coin{width:30px;height:30px;border-radius:50%;border:2px dashed rgba(255,248,236,.25);display:grid;place-items:center;font-size:12px;font-weight:700}
+.coin.full{border:2px solid #b8860b;background:radial-gradient(circle at 35% 35%,#fff1b8,var(--gold) 55%,#d99a00);color:#5a3d00;animation:clink .5s cubic-bezier(.2,1.7,.4,1) both}
+.coin.half{border:2px solid #b8860b;background:linear-gradient(90deg,var(--gold) 50%,transparent 50%);color:#5a3d00}
+.coin.zero{border:2px solid var(--pink);color:var(--pink)}
+@keyframes clink{from{transform:translateY(-14px) scale(1.6);opacity:0}to{transform:none;opacity:1}}
+
+/* stage card */
+.stage{background:var(--panel);border-radius:22px;padding:22px;display:grid;gap:18px;border:1px solid rgba(255,248,236,.12);box-shadow:0 18px 50px rgba(0,0,0,.35)}
+.stage.anim{animation:rise .5s cubic-bezier(.2,.9,.3,1.15) both}
+@keyframes rise{from{transform:translateY(18px);opacity:0}to{transform:none;opacity:1}}
+.top{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pill{font-family:var(--display);font-size:12px;padding:4px 10px;border-radius:999px;background:var(--panel2);color:var(--muted)}
+.pill.g{background:var(--gold);color:#2a1d00}
+.pitch{display:grid;grid-template-columns:120px 1fr;gap:18px;align-items:start}
+.founder{display:grid;justify-items:center;gap:6px;text-align:center}
+.founder .av{width:96px;height:96px;border-radius:50%;display:grid;place-items:center;border:3px solid var(--gold);box-shadow:0 0 0 6px rgba(255,201,60,.15)}
+.founder .av svg{width:56px;height:56px}
+.founder .nm{font-size:14px;color:var(--muted)}
+.speech{background:var(--text);color:var(--night);border-radius:18px;padding:16px 18px;position:relative;display:grid;gap:8px}
+.speech::before{content:"";position:absolute;left:-12px;top:30px;border:12px solid transparent;border-right-color:var(--text);border-left:0}
+.speech h2{font-size:24px;color:var(--night)}
+.speech h2 small{display:block;font-family:var(--body);font-size:14px;color:#5b5482;font-weight:500;margin-top:2px}
+.speech p{font-size:18px}
+.speech .money{border-top:2px dashed #d6d0ee;padding-top:8px;font-weight:500}
+
+.step{display:grid;gap:10px}
+.step h3{font-size:16px;color:var(--gold)}
+.step h3 span{color:var(--muted);font-family:var(--body);font-size:14px;font-weight:500}
+.opts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.opts.six{grid-template-columns:repeat(3,1fr)}
+.opt{font:inherit;font-weight:700;font-size:15px;cursor:pointer;background:var(--panel2);color:var(--text);border:2px solid rgba(255,248,236,.18);border-radius:12px;padding:11px 8px;transition:transform .1s,background .15s,border-color .15s}
+.opt:hover{transform:translateY(-2px);border-color:var(--gold)}
+.opt[aria-pressed="true"]{background:var(--gold);color:#2a1d00;border-color:var(--gold)}
+.opt.right{background:var(--good);color:#06302c;border-color:var(--good)}
+.opt.wrong{background:var(--bad);color:#3b0716;border-color:var(--bad)}
+.opt:disabled{cursor:default;transform:none}
+.opt:disabled:not(.right):not(.wrong){opacity:.45}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+
+.btn{font-family:var(--display);font-size:17px;cursor:pointer;color:#2a1d00;background:var(--gold);border:0;border-radius:14px;padding:12px 22px;box-shadow:0 6px 0 #b8860b;transition:transform .1s,box-shadow .1s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 0 #b8860b}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 #b8860b}
+.btn:disabled{opacity:.4;cursor:default;transform:none;box-shadow:0 6px 0 #b8860b}
+.btn.alt{background:var(--teal);color:#06302c;box-shadow:0 6px 0 #1a8b81}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.hint{font-size:14px;color:var(--muted)}
+
+.verdict{border-radius:16px;padding:16px;display:grid;gap:10px;background:var(--panel2);border:2px solid rgba(255,248,236,.15);animation:rise .4s both}
+.verdict h3{font-size:22px}
+.vrow{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.vrow .mk{font-family:var(--display);width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:15px}
+.mk.ok{background:var(--good);color:#06302c}
+.mk.no{background:var(--bad);color:#3b0716}
+.vrow b{color:var(--gold)}
+.vrow p{font-size:16px}
+
+/* final */
+.final h2{font-size:clamp(26px,5vw,40px)}
+.big{font-family:var(--display);font-size:52px;color:var(--gold);text-shadow:0 0 24px rgba(255,201,60,.4)}
+.tablewrap{overflow-x:auto;border-radius:14px;border:1px solid rgba(255,248,236,.15)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:15px}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid rgba(255,248,236,.1)}
+th{font-family:var(--display);font-weight:400;font-size:12px;color:var(--gold);background:var(--panel2)}
+td .ok{color:var(--good);font-weight:700}
+td .no{color:var(--bad);font-weight:700}
+.idea{background:var(--text);color:var(--night);border-radius:16px;padding:14px 18px;font-size:18px}
+.idea b{color:#a3315a}
+.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:20}
+.confetti i{position:absolute;top:-30px;width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff1b8,var(--gold) 55%,#d99a00);border:2px solid #b8860b;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+.refh{font-size:20px;color:var(--gold);margin-top:6px}
+table.ref{min-width:720px}
+table.ref td{vertical-align:top}
+table.ref td:first-child{white-space:nowrap}
+table.ref tbody tr:nth-child(odd){background:rgba(255,248,236,.04)}
+footer{font-size:13px;color:var(--muted);text-align:center}
+
+@media (max-width:720px){
+  .pitch{grid-template-columns:1fr}.founder{grid-auto-flow:column;justify-content:start;align-items:center}
+  .speech::before{display:none}
+  .opts,.opts.six{grid-template-columns:repeat(2,1fr)}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}.confetti{display:none}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="hero">
+    <p class="eyebrow">INS-260 · Chapter 10 · E-commerce business models</p>
+    <h1>Startup <span>Pitch</span> Night</h1>
+    <p class="lede">Tonight you're an investor. Seven young Emirati founders will pitch their startups. Listen to each pitch and decide <b>what the company does</b>: its business model. Every correct answer adds AED 1,000,000 to your portfolio.</p>
+  </header>
+
+  <section class="port" aria-label="Your investor portfolio">
+    <div><p class="lbl">Your portfolio</p><p class="val" id="val">AED 0</p></div>
+    <div class="coins" id="coins"></div>
+  </section>
+
+  <div id="stage" aria-live="polite"></div>
+
+  <footer>Created by Reem Salem (using Claude.ai) for INS-260 at Zayed University.</footer>
+</main>
+<div class="confetti" id="confetti" aria-hidden="true"></div>
+
+<script>
+(function(){
+const MODE = "business"; // "both" or "business"
+const BOTH = MODE === "both";
+const BM = {
+ etailer:{n:"E-tailer", d:"An online store. It works like a normal shop, but customers visit online to check what's in stock and place an order."},
+ broker:{n:"Transaction broker", d:"Does a transaction for you, like booking a trip, that you used to do in person or by phone."},
+ market:{n:"Market creator", d:"Builds an online meeting place where buyers and sellers find each other. It doesn't own what is sold."},
+ content:{n:"Content provider", d:"Provides digital content, such as videos, music, books or news, made or licensed by the company."},
+ community:{n:"Community provider", d:"Creates an online place where people with shared interests connect and share their own content."},
+ portal:{n:"Portal", d:"A starting point on the web: search, news and more, that sends you to other sites."},
+ service:{n:"Service provider", d:"Provides an online service instead of a product, such as storage or software."}
+};
+const RM = {
+ ads:{n:"Advertising", d:"Businesses pay to show ads to the site's visitors."},
+ sales:{n:"Sales", d:"Customers pay for each product or service they buy."},
+ sub:{n:"Subscription", d:"Customers pay a regular fee, for example every month, to use the content or service."},
+ free:{n:"Free/Freemium", d:"The basic version is free, and customers pay for premium features."},
+ fee:{n:"Transaction fee", d:"The company charges a fee for each transaction it makes possible."},
+ aff:{n:"Affiliate", d:"The company earns a referral fee when it sends a customer to another company that makes a sale."}
+};
+const BM_ORDER = ["etailer","broker","market","content","community","portal","service"];
+const RM_ORDER = ["ads","sales","sub","free","fee","aff"];
+const ICON = {
+ cup:`<path d="M10 22h30l-3 26H13z" fill="#fff8ec" stroke="#17122e" stroke-width="3" stroke-linejoin="round"/><path d="M40 27h4a6 6 0 0 1 0 12h-5" fill="none" stroke="#17122e" stroke-width="3"/><path d="M19 16c-2-4 2-6 0-10M28 16c-2-4 2-6 0-10" stroke="#17122e" stroke-width="2.5" fill="none" stroke-linecap="round"/><rect x="14" y="30" width="22" height="7" fill="#c9965a"/>`,
+ plane:`<path d="M6 30l40-12c4-1 6 4 2 6L22 34l-6 10h-5l3-10-8 2-3 5H1l3-8z" fill="#fff8ec" stroke="#17122e" stroke-width="3" stroke-linejoin="round"/>`,
+ sofa:`<rect x="8" y="22" width="40" height="14" rx="4" fill="#fff8ec" stroke="#17122e" stroke-width="3"/><rect x="4" y="26" width="8" height="16" rx="3" fill="#fff8ec" stroke="#17122e" stroke-width="3"/><rect x="44" y="26" width="8" height="16" rx="3" fill="#fff8ec" stroke="#17122e" stroke-width="3"/><path d="M12 36h32v8H12zM12 44v4M44 44v4" fill="#fff8ec" stroke="#17122e" stroke-width="3"/>`,
+ phones:`<path d="M10 30a18 18 0 0 1 36 0" fill="none" stroke="#17122e" stroke-width="4"/><rect x="6" y="28" width="10" height="16" rx="4" fill="#fff8ec" stroke="#17122e" stroke-width="3"/><rect x="40" y="28" width="10" height="16" rx="4" fill="#fff8ec" stroke="#17122e" stroke-width="3"/>`,
+ chat:`<path d="M6 10h30v20H18l-8 7v-7H6z" fill="#fff8ec" stroke="#17122e" stroke-width="3" stroke-linejoin="round"/><path d="M24 34v4h14l8 7v-7h4V20h-8" fill="#fff8ec" stroke="#17122e" stroke-width="3" stroke-linejoin="round"/>`,
+ search:`<circle cx="24" cy="24" r="13" fill="#fff8ec" stroke="#17122e" stroke-width="4"/><path d="M34 34l12 12" stroke="#17122e" stroke-width="5" stroke-linecap="round"/>`,
+ cloud:`<path d="M16 40a10 10 0 0 1 0-20 13 13 0 0 1 25 3 9 9 0 0 1 1 17z" fill="#fff8ec" stroke="#17122e" stroke-width="3" stroke-linejoin="round"/><path d="M28 36V26M23 31l5-5 5 5" fill="none" stroke="#17122e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`
+};
+const PITCHES = [
+ {name:"KarakBox", tag:"Karak tea, delivered", founder:"Hamad", color:"#ff9f43", icon:"cup", bm:"etailer", rm:"sales",
+  pitch:"KarakBox is an online shop for karak tea packs, cups and snacks. Open our app any time, day or night, check what's in stock, place your order, and we deliver to your door.",
+  money:"Customers pay us for every product they buy.",
+  why:"KarakBox is an online store. It works like a normal shop, but customers check what's in stock and order online, 24/7. That's an e-tailer, like Amazon or noon."},
+ {name:"TripEase", tag:"Travel booking, made easy", founder:"Noura", color:"#54a0ff", icon:"plane", bm:"broker", rm:"fee",
+  pitch:"Remember calling a travel agent to book a trip? Our website books your flights and hotels for you, all in one place, and saves you time and money.",
+  money:"We charge a small fee on every booking we make for you.",
+  why:"TripEase does the booking transaction for you, like Expedia or Booking.com: that's a transaction broker."},
+ {name:"Dar2Dar", tag:"Used furniture, neighbour to neighbour", founder:"Saeed", color:"#1dd1a1", icon:"sofa", bm:"market", rm:"fee",
+  pitch:"People in Abu Dhabi sell their used furniture to each other on our app. We don't own any furniture. We just connect buyers and sellers.",
+  money:"We take 5% of the price every time a sale happens.",
+  why:"Dar2Dar never owns the furniture. It just brings buyers and sellers together, like Dubizzle or eBay: that's a market creator."},
+ {name:"Hikayat", tag:"Arabic audiobooks and stories", founder:"Maryam", color:"#ff6b9e", icon:"phones", bm:"content", rm:"sub",
+  pitch:"Our team records Arabic audiobooks, stories and podcasts. You can listen to all of them on our app.",
+  money:"Listeners pay 25 AED every month for unlimited stories.",
+  why:"Hikayat provides content that its own team makes, like Netflix or Shahid: that's a content provider."},
+ {name:"CampusCircle", tag:"By students, for students", founder:"Khalid", color:"#a29bfe", icon:"chat", bm:"community", rm:"aff",
+  pitch:"University students join our app to share study tips, ask questions, and post their own reviews of laptops and gadgets.",
+  money:"When a student clicks a link in a review and buys the laptop from an online shop, that shop pays us a small reward.",
+  why:"On CampusCircle, the users create the content and connect with each other: that's a community provider, like Instagram."},
+ {name:"StartHere", tag:"Your first stop online", founder:"Fatima", color:"#feca57", icon:"search", bm:"portal", rm:"ads",
+  pitch:"StartHere is the first page you open online: a search box, today's news, the weather and prayer times, with links to the rest of the web.",
+  money:"It's free for everyone. Businesses pay us to show their ads on the page.",
+  why:"StartHere is a starting point that sends you to other sites, like Google or Yahoo: that's a portal."},
+ {name:"SafeBox", tag:"Your files, safe in the cloud", founder:"Omar", color:"#48dbfb", icon:"cloud", bm:"service", rm:"free",
+  pitch:"SafeBox stores and backs up your files and photos online, so you can open them from any device.",
+  money:"The first 5 GB are free. If you need more space, you pay for a premium plan.",
+  why:"SafeBox sells a service, not a product, like Dropbox or Google Drive: that's a service provider."}
+];
+const RM_WHY = {
+ sales:"Customers pay for each product they buy.",
+ fee:"The company earns a fee on each transaction it makes possible.",
+ sub:"Customers pay a regular monthly fee for the content.",
+ aff:"The company earns a referral reward when it sends a customer to another company that makes a sale.",
+ ads:"The site is free, and businesses pay to show ads.",
+ free:"The basic service is free, and customers pay for premium features."
+};
+const REF = [
+ ["1. E-tailer","An online shop. It sells products directly to customers.","noon, Lulu online, Namshi","Amazon"],
+ ["2. Transaction broker","Does a transaction for you that you used to do in person or by phone, such as booking a trip or buying shares. Saves time and money.","Booking.com","Expedia, E*Trade"],
+ ["3. Market creator","Builds an online meeting place where buyers and sellers find each other. It doesn’t own what’s being sold.","Dubizzle, Careem","eBay, Uber, Airbnb"],
+ ["4. Content provider","Provides digital content: videos, music, news, games.","Shahid, Anghami","Netflix, Spotify"],
+ ["5. Community provider","Creates an online place for people with shared interests to connect and share.","Instagram, Snapchat","Facebook, TikTok"],
+ ["6. Portal","A starting point on the web. You start your search there, and it sends you elsewhere.","Google","Yahoo, MSN"],
+ ["7. Service provider","Provides an online service instead of a product, such as storage or software.","Google Drive, Microsoft 365","Dropbox, Salesforce"]
+];
+const PER = BOTH ? 500000 : 1000000;
+
+const fresh = () => ({i:0, bm:Array(PITCHES.length).fill(null), rm:Array(PITCHES.length).fill(null), done:Array(PITCHES.length).fill(false)});
+let state = fresh(), anim = true;
+window.claude?.hot?.snapshot?.(() => state);
+const $ = s => document.querySelector(s);
+const money = n => n>=1000000 ? `AED ${(n/1000000).toLocaleString("en-US",{maximumFractionDigits:1})}M` : `AED ${n.toLocaleString("en-US")}`;
+const roundScore = k => (state.bm[k]===PITCHES[k].bm ? PER : 0) + (BOTH && state.rm[k]===PITCHES[k].rm ? PER : 0);
+
+function renderPort(){
+  const total = PITCHES.reduce((a,_,k)=>a+(state.done[k]?roundScore(k):0),0);
+  $("#val").textContent = money(total);
+  $("#coins").innerHTML = PITCHES.map((p,k)=>{
+    if(!state.done[k]) return `<span class="coin" aria-label="${p.name}: not decided yet"></span>`;
+    const s = roundScore(k), max = BOTH?PER*2:PER;
+    const cls = s===max?"full":s>0?"half":"zero";
+    return `<span class="coin ${cls}" aria-label="${p.name}: ${s===max?"full investment":s>0?"half":"no investment"}">${s===0?"✗":""}</span>`;
+  }).join("");
+}
+
+function pitchCard(){
+  const k=state.i, p=PITCHES[k], done=state.done[k];
+  const bmSel=state.bm[k], rmSel=state.rm[k];
+  const ready = bmSel && (!BOTH || rmSel);
+  const optBM = BM_ORDER.map(id=>{
+    let cls=""; if(done){ if(id===p.bm) cls="right"; else if(id===bmSel) cls="wrong"; }
+    return `<button type="button" class="opt ${cls}" data-bm="${id}" aria-pressed="${!done && bmSel===id}" ${done?"disabled":""}>${BM[id].n}</button>`;
+  }).join("");
+  const optRM = RM_ORDER.map(id=>{
+    let cls=""; if(done){ if(id===p.rm) cls="right"; else if(id===rmSel) cls="wrong"; }
+    return `<button type="button" class="opt ${cls}" data-rm="${id}" aria-pressed="${!done && rmSel===id}" ${done?"disabled":""}>${RM[id].n}</button>`;
+  }).join("");
+  const bmOk = bmSel===p.bm, rmOk = rmSel===p.rm;
+  return `<section class="stage ${anim?"anim":""}" aria-labelledby="ph">
+    <div class="top"><span class="pill g">Pitch ${k+1} of ${PITCHES.length}</span><span class="pill">${BOTH?"Up to "+money(PER*2):"Worth "+money(PER)}</span></div>
+    <div class="pitch">
+      <div class="founder"><div class="av" style="background:${p.color}"><svg viewBox="0 0 56 56" aria-hidden="true">${ICON[p.icon]}</svg></div><p class="nm">Founder: ${p.founder}</p></div>
+      <div class="speech">
+        <h2 id="ph">${p.name}<small>${p.tag}</small></h2>
+        <p>"${p.pitch}"</p>
+        ${BOTH?`<p class="money">💰 "${p.money}"</p>`:""}
+      </div>
+    </div>
+    <div class="step">
+      <h3>${BOTH?"Step 1: ":""}What is its business model? <span>(What does it do?)</span></h3>
+      <div class="opts">${optBM}</div>
+    </div>
+    ${BOTH?`<div class="step">
+      <h3>Step 2: What is its revenue model? <span>(How does it get paid?)</span></h3>
+      <div class="opts six">${optRM}</div>
+    </div>`:""}
+    ${done ? verdict(p,bmOk,rmOk) : `<div class="row"><button type="button" class="btn" id="invest" ${ready?"":"disabled"}>Invest! 💰</button><span class="hint">${ready?"Ready when you are.":BOTH?"Choose a business model and a revenue model.":"Choose a business model."}</span></div>`}
+  </section>`;
+}
+
+function verdict(p,bmOk,rmOk){
+  const s = (bmOk?PER:0)+(BOTH&&rmOk?PER:0), max=BOTH?PER*2:PER;
+  const head = s===max ? `Great investment! +${money(s)}` : s>0 ? `Half right: +${money(s)}` : `Missed this one`;
+  return `<div class="verdict">
+    <h3 style="color:${s===max?"var(--good)":s>0?"var(--gold)":"var(--bad)"}">${head}</h3>
+    <div class="vrow"><span class="mk ${bmOk?"ok":"no"}">${bmOk?"✓":"✗"}</span><p><b>Business model: ${BM[p.bm].n}.</b> ${p.why}</p></div>
+    ${BOTH?`<div class="vrow"><span class="mk ${rmOk?"ok":"no"}">${rmOk?"✓":"✗"}</span><p><b>Revenue model: ${RM[p.rm].n}.</b> ${RM_WHY[p.rm]}</p></div>`:""}
+  </div>
+  <div class="row"><button type="button" class="btn alt" id="next">${state.i<PITCHES.length-1?"Next pitch →":"See my portfolio →"}</button></div>`;
+}
+
+function finalCard(){
+  const total = PITCHES.reduce((a,_,k)=>a+roundScore(k),0), max = PITCHES.length*(BOTH?PER*2:PER);
+  const pct = total/max;
+  const msg = pct===1 ? "Legendary investor! A perfect portfolio." : pct>=.7 ? "Smart investor! Great portfolio." : "Good start! Play again to grow your portfolio.";
+  const rows = PITCHES.map((p,k)=>`<tr><td><b>${p.name}</b></td><td><span class="${state.bm[k]===p.bm?"ok":"no"}">${state.bm[k]===p.bm?"✓":"✗"}</span> ${BM[p.bm].n}</td>${BOTH?`<td><span class="${state.rm[k]===p.rm?"ok":"no"}">${state.rm[k]===p.rm?"✓":"✗"}</span> ${RM[p.rm].n}</td>`:""}</tr>`).join("");
+  return `<section class="stage final anim" aria-labelledby="fh">
+    <div class="top"><span class="pill g">Pitch night is over</span></div>
+    <h2 id="fh">${msg}</h2>
+    <p><span class="big">${money(total)}</span> <span class="hint">out of ${money(max)}</span></p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Startup</th><th>Business model</th>${BOTH?"<th>Revenue model</th>":""}</tr></thead>
+      <tbody>${rows}</tbody></table></div>
+    <p class="idea">${BOTH
+      ? "<b>Business model</b> = what the company does. <b>Revenue model</b> = how it gets paid. Two startups with different business models (like Noura's and Saeed's) can still make money the same way."
+      : "<b>Business model</b> = what the company does online, and for whom. Ask: is it an online store, does it book things for you, connect people, provide content, host a community, start your search, or provide a service?"}</p>
+    <h3 class="refh">The 7 business models: summary</h3>
+    <div class="tablewrap"><table class="ref">
+      <thead><tr><th>Business model</th><th>What it does, in simple words</th><th>Local example</th><th>Textbook example</th></tr></thead>
+      <tbody>${REF.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join("")}</tbody></table></div>
+    <div class="row"><button type="button" class="btn" id="again">Play again</button></div>
+  </section>`;
+}
+
+function render(scroll){
+  renderPort();
+  $("#stage").innerHTML = state.i < PITCHES.length ? pitchCard() : finalCard();
+  if(scroll) $("#stage").scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth", block:"start"});
+}
+function coinRain(){
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const box=$("#confetti"); box.innerHTML="";
+  for(let i=0;i<40;i++){const s=document.createElement("i");s.style.left=Math.random()*100+"vw";s.style.animationDuration=(1.6+Math.random()*1.8)+"s";s.style.animationDelay=(Math.random()*.6)+"s";box.appendChild(s);}
+  setTimeout(()=>box.innerHTML="",4400);
+}
+const keep = fn => { const y=window.scrollY; fn(); window.scrollTo(0,y); };
+
+document.addEventListener("click", e=>{
+  const k = state.i;
+  const b1 = e.target.closest("[data-bm]");
+  if(b1 && !state.done[k]){ state.bm[k]=b1.dataset.bm; anim=false; keep(()=>render()); return; }
+  const b2 = e.target.closest("[data-rm]");
+  if(b2 && !state.done[k]){ state.rm[k]=b2.dataset.rm; anim=false; keep(()=>render()); return; }
+  if(e.target.closest("#invest")){ state.done[k]=true; anim=false; keep(()=>render()); const n=$("#next"); n&&n.focus({preventScroll:true}); return; }
+  if(e.target.closest("#next")){ state.i++; anim=true; render(true);
+    if(state.i>=PITCHES.length){ const max=PITCHES.length*(BOTH?PER*2:PER); const tot=PITCHES.reduce((a,_,j)=>a+roundScore(j),0); if(tot===max) coinRain(); }
+    return; }
+  if(e.target.closest("#again")){ state=fresh(); anim=true; render(); window.scrollTo({top:0,behavior:"smooth"}); }
+});
+function start(saved){ if(saved && typeof saved.i==="number" && Array.isArray(saved.bm) && saved.bm.length===PITCHES.length) state=saved; render(); }
+window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {});
+})();
+</script>
+</body>
+</html>
